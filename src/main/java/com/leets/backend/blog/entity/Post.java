@@ -30,7 +30,18 @@ public class Post {
     // 게시물 삭제 여부
     private Boolean deleted = false;
 
-    protected Post() {}
+    protected Post() {
+        // JPA 기본 생성자
+    }
+
+    // 생성자에서 값 할당
+    public Post(User user, String title, String content){
+        this.user =  user;
+        this.title = title;
+        this.content = content;
+        this.createdAt = LocalDateTime.now();
+        this.deleted = false; // 생성 시점에는 삭제되지 않은 상태이므로
+    }
 
     // Getters
     public Long getPostId() { return postId; }

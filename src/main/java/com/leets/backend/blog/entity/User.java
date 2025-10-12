@@ -17,13 +17,13 @@ public class User {
     @Column(name = "profile_image_url", length = 500)
     private String profileImageUrl;
 
-    @Column(name = "imail", nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
     @Column(nullable = false, length = 255)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String username;
 
     @Column(nullable = false, unique = true, length = 20)

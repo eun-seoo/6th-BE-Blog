@@ -7,12 +7,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "posts")
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long postId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 255)
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
@@ -22,7 +21,10 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User user; // 단방향 관계
 
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     protected Post() {}
@@ -35,8 +37,8 @@ public class Post {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
+    public Long getPostId() {
+        return postId;
     }
 
     public String getTitle() {

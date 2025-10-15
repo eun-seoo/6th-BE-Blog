@@ -5,15 +5,15 @@ import com.leets.backend.blog.post.entity.Post;
 import java.time.format.DateTimeFormatter;
 
 public class PostResponse {
-    private Long post_id;
+    private Long postId;
     private String title;
     private String content;
     private String nickname;
     private String createdAt;
     private String updatedAt;
 
-    private PostResponse(Long id, String title, String content, String nickname, String createdAt, String updatedAt) {
-        this.post_id = id;
+    private PostResponse(Long postId, String title, String content, String nickname, String createdAt, String updatedAt) {
+        this.postId = postId;
         this.title = title;
         this.content = content;
         this.nickname = nickname;
@@ -28,7 +28,7 @@ public class PostResponse {
         String updated = post.getUpdatedAt() != null ? post.getUpdatedAt().format(formatter) : null;
 
         return new PostResponse(
-                post.getId(),
+                post.getPostId(),
                 post.getTitle(),
                 post.getContent(),
                 post.getNickname(),
@@ -37,7 +37,7 @@ public class PostResponse {
         );
     }
 
-    public Long getId() { return post_id; }
+    public Long getPostId() { return postId; }
     public String getTitle() { return title; }
     public String getContent() { return content; }
     public String getNickname() { return nickname; }

@@ -37,28 +37,28 @@ public class PostService {
 
     // 게시글 상세 조회
     @Transactional(readOnly = true)
-    public PostResponse getPostById(Long id) {
-        Post post = postRepository.findById(id)
+    public PostResponse getPostById(Long postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("해당 게시글이 존재하지 않습니다."));
         return PostResponse.from(post);
     }
 
     // 게시글 생성
-    public PostResponse createPost(PostRequest request) {
+    public PostResponse createPost(PostRequest postRequest) {
         // userId로 User 객체 조회 -> 회원가입 구현 후 리팩토링
         // 이메일 기준으로 유저 조회
         User user = userRepository.findByEmail("test@example.com")
                 .orElseGet(() -> userRepository.save(new User("test@example.com", "1234", "더미유저")));
 
-        Post post = new Post(request.getTitle(), request.getContent(), user);
+        Post post = new Post(postRequest.getTitle(), postRequest.getContent(), user);
         Post saved = postRepository.save(post);
 
         return PostResponse.from(saved);
     }
 
     // 게시글 수정
-    public PostResponse updatePost(Long id, Long userId, PostUpdateRequest request) {
-        Post post = postRepository.findById(id)
+    public PostResponse updatePost(Long postId, Long userId, PostUpdateRequest request) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다."));
 
         // 회원 기능 생기면 삭제, 임시 기능
@@ -77,8 +77,8 @@ public class PostService {
     }
 
     // 게시글 삭제
-    public void deletePost(Long id, Long userId) {
-        Post post = postRepository.findById(id)
+    public void deletePost(Long postId, Long userId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new PostNotFoundException("게시글을 찾을 수 없습니다."));
 
         if (!post.getUser().getId().equals(userId)) {

@@ -37,6 +37,11 @@ public class Post {
         this.updatedAt = LocalDateTime.now();
     }
 
+    // 정적 팩토리 메서드
+    public static Post of(String title, String content, User user) {
+        return new Post(title, content, user);
+    }
+
     public Long getPostId() {
         return postId;
     }

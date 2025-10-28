@@ -45,12 +45,10 @@ public class PostService {
 
     // 게시글 생성
     public PostResponse createPost(PostRequest postRequest) {
-        // userId로 User 객체 조회 -> 회원가입 구현 후 리팩토링
-        // 이메일 기준으로 유저 조회
         User user = userRepository.findByEmail("test@example.com")
                 .orElseGet(() -> userRepository.save(new User("test@example.com", "1234", "더미유저")));
 
-        Post post = new Post(postRequest.getTitle(), postRequest.getContent(), user);
+        Post post = Post.of(postRequest.getTitle(), postRequest.getContent(), user);
         Post saved = postRepository.save(post);
 
         return PostResponse.from(saved);

@@ -30,7 +30,8 @@ public class Comment {
     private LocalDateTime updatedAt;
 
     // 기본 생성자
-    protected Comment() {}
+    protected Comment() {
+    }
 
     public Comment(Post post, User user, String content) {
         this.post = post;
@@ -49,14 +50,30 @@ public class Comment {
     public Long getId() {
         return id;
     }
+
     public String getContent() {
         return content;
     }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void updateContent(String newContent) {
+        this.content = newContent;
+        this.updatedAt = LocalDateTime.now();
     }
 }
 

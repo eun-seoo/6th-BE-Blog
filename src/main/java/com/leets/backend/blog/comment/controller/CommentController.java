@@ -40,6 +40,13 @@ public class CommentController {
         return ResponseEntity.ok(ApiResponse.ok(comments));
     }
 
+    // 전체 댓글 목록 조회 (추가)
+    @GetMapping("/comments")
+    public ResponseEntity<ApiResponse<List<CommentResponse>>> getAllComments() {
+        List<CommentResponse> comments = commentService.getAllComments();
+        return ResponseEntity.ok(ApiResponse.ok(comments));
+    }
+
     @PatchMapping("/comments/{commentId}")
     public ResponseEntity<ApiResponse<CommentResponse>> updateComment(
             @PathVariable Long commentId,

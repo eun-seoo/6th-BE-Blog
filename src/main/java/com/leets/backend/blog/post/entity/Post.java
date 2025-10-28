@@ -19,7 +19,7 @@ public class Post {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
-    private User user; // 단방향 관계
+    private User user;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;

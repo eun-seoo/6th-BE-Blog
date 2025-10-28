@@ -40,7 +40,7 @@ public class CommentService {
         return CommentResponse.from(commentRepository.save(comment));
     }
 
-    // 전체 댓글 목록 조회 (추가)
+    // 전체 댓글 목록 조회
     public List<CommentResponse> getAllComments() {
         List<Comment> comments = commentRepository.findAll();
         return comments.stream()

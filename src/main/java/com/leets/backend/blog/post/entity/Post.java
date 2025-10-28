@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long postId;
+    private Long id;
 
     @Column(nullable = false, length = 255)
     private String title;
@@ -42,9 +42,7 @@ public class Post {
         return new Post(title, content, user);
     }
 
-    public Long getPostId() {
-        return postId;
-    }
+    public Long getId() { return id; }
 
     public String getTitle() {
         return title;

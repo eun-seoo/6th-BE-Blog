@@ -21,19 +21,6 @@ public class GlobalExceptionHandler {
                 .body(ApiResponse.fail(e));
     }
 
-    // 모든 예외의 최종 처리
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<?>> handleException(Exception e) {
-        log.error("[Unhandled Exception] {}", e.getMessage(), e);
-
-        CustomException customException =
-                new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다.");
-
-        return ResponseEntity
-                .status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus())
-                .body(ApiResponse.fail(customException));
-    }
-
     // Validation 예외 처리
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiResponse<?>> handleValidationException(MethodArgumentNotValidException e) {
@@ -47,6 +34,19 @@ public class GlobalExceptionHandler {
         CustomException customException = new CustomException(ErrorCode.BAD_REQUEST, msg);
         return ResponseEntity
                 .status(ErrorCode.BAD_REQUEST.getHttpStatus())
+                .body(ApiResponse.fail(customException));
+    }
+
+    // 모든 예외의 최종 처리
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ApiResponse<?>> handleException(Exception e) {
+        log.error("[Unhandled Exception] {}", e.getMessage(), e);
+
+        CustomException customException =
+                new CustomException(ErrorCode.INTERNAL_SERVER_ERROR, "서버 내부 오류가 발생했습니다.");
+
+        return ResponseEntity
+                .status(ErrorCode.INTERNAL_SERVER_ERROR.getHttpStatus())
                 .body(ApiResponse.fail(customException));
     }
 }

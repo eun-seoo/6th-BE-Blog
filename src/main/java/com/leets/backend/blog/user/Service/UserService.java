@@ -2,7 +2,6 @@ package com.leets.backend.blog.user.service;
 
 import com.leets.backend.blog.common.exception.CustomException;
 import com.leets.backend.blog.common.exception.ErrorCode;
-import com.leets.backend.blog.user.controller.dto.request.UserSignupRequest;
 import com.leets.backend.blog.user.controller.dto.response.UserResponse;
 import com.leets.backend.blog.user.entity.User;
 import com.leets.backend.blog.user.repository.UserRepository;
@@ -19,20 +18,37 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public UserResponse signUp(UserSignupRequest userSignupRequest) {
-        // 이메일 중복 체크
-        userRepository.findByEmail(userSignupRequest.getEmail())
-                .ifPresent(user -> {
-                    throw new CustomException(ErrorCode.DUPLICATED_EMAIL, "이미 존재하는 이메일입니다.");
-                });
+    // 사용자 조회
+    public UserResponse getUserById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND, "유저를 찾을 수 없습니다."));
 
-        // 비밀번호 암호화
-        String encodedPassword = passwordEncoder.encode(userSignupRequest.getPassword());
+        return new UserResponse(user.getEmail(), user.getNickname());
+    }
 
-        User user = new User(userSignupRequest.getEmail(), encodedPassword, userSignupRequest.getNickname());
+    // 닉네임 변경
+    public UserResponse updateNickname(Long id, String nickname) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND, "유저를 찾을 수 없습니다."));
 
-        User savedUser = userRepository.save(user);
+        user.updateNickname(nickname);
+        userRepository.save(user);
 
-        return new UserResponse(savedUser.getEmail(), savedUser.getNickname());
+        return new UserResponse(user.getEmail(), user.getNickname());
+    }
+
+    // 비밀번호 수정 (PasswordEncoder 포함)
+    public void updatePassword(Long id, String oldPassword, String newPassword) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND, "유저를 찾을 수 없습니다."));
+
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new CustomException(ErrorCode.LOGIN_INVALID_PASSWORD, "비밀번호가 일치하지 않습니다.");
+        }
+
+        String encodedNewPassword = passwordEncoder.encode(newPassword);
+        user.updatePassword(encodedNewPassword);
+
+        userRepository.save(user);
     }
 }

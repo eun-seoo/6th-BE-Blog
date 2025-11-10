@@ -6,13 +6,11 @@ public class UserResponse {
     private String email;
     private String nickname;
 
+    public UserResponse() {}
+
     public UserResponse(String email, String nickname) {
         this.email = email;
         this.nickname = nickname;
-    }
-
-    public static UserResponse from(User user) {
-        return new UserResponse(user.getEmail(), user.getNickname());
     }
 
     public String getEmail() {

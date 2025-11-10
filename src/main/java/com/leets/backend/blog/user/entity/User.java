@@ -31,10 +31,15 @@ public class User {
         this.nickname = nickname;
     }
 
-    // 순수 도메인 객체니까 비즈니스 로직만 담는다
+    // 비즈니스 로직
     public void updatePassword(String newPassword) {
         this.password = newPassword;
     }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
 
     public String getEmail() { return email; }
     public String getPassword() { return password; }
